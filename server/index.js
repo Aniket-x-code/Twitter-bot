@@ -16,4 +16,18 @@ async function getRules()
             Authorization: `Bearer ${TOKEN}`
         }
     }) 
+    console.log(response.body)
+    return response.body
 }
+
+
+(async()=>{
+     let currentRules
+
+     try {
+        currentRules = await getRules()
+     } catch ( error) {
+        console.log(error);
+        process.exit(1)
+     }
+})()
