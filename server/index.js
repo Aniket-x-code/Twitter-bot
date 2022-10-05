@@ -5,7 +5,7 @@ const TOKEN = process.env.TWITTER_BEARER_TOKKEN
 const rulesURL='https://api.twitter.com/2/tweets/search/stream/rules'
 const streamURL='https://api.twitter.com/2/tweets/search/stream?tweet.field=public_metrics&expansions=author_id'
 
-const rules=[{value: 'giveaway'}]
+const rules=[{value: 'giveaway'}, { value: 'xbox'}]
 
 
 // get stream rules
@@ -22,13 +22,15 @@ async function getRules()
 
 // set stream rules
 async function setRules()
-{
-    const response= await needle('get', rulesURL, {
+{   const data = {
+    add: rules
+}
+    const response= await needle('post', rulesURL,data, {
         headers:{
+            'content-type': 'application/json',
             Authorization: `Bearer ${TOKEN}`
         }
     }) 
-    console.log(response.body);
     return response.body;
 }
 
@@ -38,6 +40,7 @@ async function setRules()
      let currentRules
 
      try {
+        await setRules()
         currentRules = await getRules()
      } catch ( error) {
         console.log(error);
