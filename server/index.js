@@ -16,8 +16,8 @@ async function getRules()
             Authorization: `Bearer ${TOKEN}`
         }
     }) 
-    console.log(response.body)
-    return response.body
+    console.log(response.body);
+    return response.body;
 }
 
 
