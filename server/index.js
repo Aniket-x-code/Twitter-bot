@@ -20,6 +20,19 @@ async function getRules()
     return response.body;
 }
 
+// set stream rules
+async function setRules()
+{
+    const response= await needle('get', rulesURL, {
+        headers:{
+            Authorization: `Bearer ${TOKEN}`
+        }
+    }) 
+    console.log(response.body);
+    return response.body;
+}
+
+
 
 (async()=>{
      let currentRules
