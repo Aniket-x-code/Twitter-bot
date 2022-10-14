@@ -35,6 +35,20 @@ async function setRules()
 }
 
 
+// delete stream rules
+async function setRules()
+{   const data = {
+    add: rules
+}
+    const response= await needle('post', rulesURL,data, {
+        headers:{
+            'content-type': 'application/json',
+            Authorization: `Bearer ${TOKEN}`
+        }
+    }) 
+    return response.body;
+}
+
 
 (async()=>{
      let currentRules
