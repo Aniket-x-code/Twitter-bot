@@ -1,11 +1,22 @@
 const needle = require('needle');
+const http = require('http');
 const config = require('dotenv').config();
+const path = require('path');
+const express = require('express')
+const socketIo = require('socket.io')
 const TOKEN = process.env.TWITTER_BEARER_TOKKEN
+const PORT = process.env.PORT || 3000
+
+
+const app = express();
+
+const server = http.createServer(app)
+const io = socketIo(server)
 
 const rulesURL='https://api.twitter.com/2/tweets/search/stream/rules'
 const streamURL='https://api.twitter.com/2/tweets/search/stream?tweet.fields=public_metrics&expansions=author_id'
 
-const rules=[{value: 'worldcup'}];
+const rules=[{value: '#T20WorldCup'}];
 
 
 // get stream rules
@@ -76,21 +87,29 @@ function streamTweets()
 }
 
 
-(async()=>{
-     let currentRules
+io.on('connection', ()=>{
+    console.log('client connected')
+})
 
-     try {
-        // get all stream rules
-        currentRules = await getRules()
-        // delete all stream rules
+// (async()=>{
+//      let currentRules
+
+//      try {
+//         // get all stream rules
+//         currentRules = await getRules()
+//         // delete all stream rules
         
-        await deleteRules(currentRules)
+//         await deleteRules(currentRules)
         
-        await setRules()
+//         await setRules()
       
-     } catch ( error) {
-        console.log(error);
-        process.exit(1)
-     }
-     streamTweets()
-})()
+//      } catch ( error) {
+//         console.log(error);
+//         process.exit(1)
+//      }
+//      streamTweets()
+// })()
+
+server.listen(3000, () => {
+    console.log(`Listening on port ${PORT}`);
+});
