@@ -74,7 +74,7 @@ async function deleteRules(rules)
     return response.body;
 }
 
-function streamTweets()
+function streamTweets(socket)
 {
     const stream = needle.get(streamURL, { 
         headers: {
@@ -84,7 +84,8 @@ function streamTweets()
         stream.on('data', (data)=>{
             try {
                 const json = JSON.parse(data)
-                console.log(json)
+                // console.log(json)
+                socket.emit('tweet', json)
             } catch (error) {
                 
             }
@@ -92,28 +93,27 @@ function streamTweets()
 }
 
 
-io.on('connection', ()=>{
+io.on('connection', async()=>{
     console.log('client connected')
+
+    let currentRules
+
+     try {
+        // get all stream rules
+        currentRules = await getRules()
+        // delete all stream rules
+        
+        await deleteRules(currentRules)
+        
+        await setRules()
+      
+     } catch ( error) {
+        console.log(error);
+        process.exit(1)
+     }
+     streamTweets(io)
 })
 
-// (async()=>{
-//      let currentRules
-
-//      try {
-//         // get all stream rules
-//         currentRules = await getRules()
-//         // delete all stream rules
-        
-//         await deleteRules(currentRules)
-        
-//         await setRules()
-      
-//      } catch ( error) {
-//         console.log(error);
-//         process.exit(1)
-//      }
-//      streamTweets()
-// })()
 
 server.listen(3000, () => {
     console.log(`Listening on port ${PORT}`);
