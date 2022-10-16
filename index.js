@@ -76,6 +76,7 @@ async function deleteRules(rules)
 
 function streamTweets(socket)
 {
+    console.log(socket,"socket");
     const stream = needle.get(streamURL, { 
         headers: {
         Authorization: `Bearer ${TOKEN}`
@@ -84,7 +85,7 @@ function streamTweets(socket)
         stream.on('data', (data)=>{
             try {
                 const json = JSON.parse(data)
-                // console.log(json)
+                console.log(json,"json");
                 socket.emit('tweet', json)
             } catch (error) {
                 
