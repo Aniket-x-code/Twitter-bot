@@ -29,8 +29,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.3/socket.io.js" integrity="sha512-iWPnCISAd/J+ZacwV2mbNLCaPGRrRo5OS81lKTVPtRg1wGTC20Cfmp5Us5RcbLv42QLdbAWl0MI57yox5VecQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
 
-        const tweetStream = document.getElementById('tweetStream')
+        const tweetStream = document.getElementById('#tweetStream')
 
+        console.log(tweetStream,"tweetSt");
+        
         const socket = io();
 
         const tweets = []
@@ -46,17 +48,21 @@
                 username: `@${tweet.includes.users[0].username}` 
             }
 
-            const tweetEl = document.createElement('div')
-            tweetEl.className= 'card my-4'
-            tweetEl.innerHTML=` 
+            const tweetEle = document.createElement('div');
+            tweetEle.className= 'card my-4'
+            tweetEle.innerHTML=` 
             <div class="card-body">
             
                 <h5 class="card-title">${tweetData.text}</h5>
                 <h6 class="card-subtitle mb-2 text-muted"> ${tweetData.username}</h6>
                 
-                a
+                <a class="btn btn-primary mt-3" href="https://twitter.com/${tweetData.username}/status/${tweetData.id}">
+                   <i class="fab fa-twitter"></i> Go to Tweet
+                    </a>
             </div>  
                 `
+
+                tweetStream.appendChild(tweetEle)
 
         })
 
