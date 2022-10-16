@@ -15,7 +15,7 @@ const io = socketIo(server)
 
 
 app.get('/', (req,res)=>{
-    res.sendFile(path.resolve(__dirname, '../', 'client', 'index.html'))
+    res.sendFile(path.resolve(__dirname, 'client', 'index.html'))
 })
 
 const rulesURL='https://api.twitter.com/2/tweets/search/stream/rules'

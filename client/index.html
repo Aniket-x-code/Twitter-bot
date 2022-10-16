@@ -41,7 +41,9 @@
             console.log('connected to server....');
         })
         socket.on('tweet', (tweet)=>{
- 
+            
+            console.log(tweet,"tw");
+            
             const tweetData ={
                 id: tweet.data.id,
                 text: tweet.data.text,
